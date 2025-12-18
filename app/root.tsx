@@ -8,9 +8,11 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import "./app.css";
 import "@radix-ui/themes/styles.css";
+import "./app.css";
 import { Theme } from "@radix-ui/themes";
+
+import "@fontsource-variable/bricolage-grotesque"; // Defaults to wght axis
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,8 +36,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Theme accentColor={"red"}>
+      <body className="bg-[#1C2024] min-h-screen">
+        <Theme accentColor={"red"} radius={"none"}>
           {children}
           <ScrollRestoration />
           <Scripts />
