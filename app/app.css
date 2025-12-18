@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "@radix-ui/themes/styles.css";
 
-:root, .light, .light-theme {
+:root, .dark, .dark-theme {
     --red-1: #f0ecec;
     --red-2: #f0e6e6;
     --red-3: #f2d6d8;
@@ -36,7 +36,7 @@
 
 @supports (color: color(display-p3 1 1 1)) {
     @media (color-gamut: p3) {
-        :root, .light, .light-theme {
+        :root, .dark, .dark-theme {
             --red-1: oklch(94.6% 0.0046 11.8);
             --red-2: oklch(93.2% 0.0117 11.8);
             --red-3: oklch(89.9% 0.0312 11.8);
@@ -71,11 +71,11 @@
     }
 }
 
-:root, .light, .light-theme, .radix-themes {
-    --color-background: var(--gray-3);
+:root, .dark, .dark-theme, .radix-themes {
+    --color-background: #1C2024;
 }
 
-:root, .light, .light-theme {
+:root, .dark, .dark-theme {
     --gray-1: #ececed;
     --gray-2: #e8e8ea;
     --gray-3: #dddee1;
@@ -110,7 +110,7 @@
 
 @supports (color: color(display-p3 1 1 1)) {
     @media (color-gamut: p3) {
-        :root, .light, .light-theme {
+        :root, .dark, .dark-theme {
             --gray-1: oklch(94.4% 0.0015 277.7);
             --gray-2: oklch(93.1% 0.003 277.7);
             --gray-3: oklch(90.1% 0.0045 277.7);
@@ -143,4 +143,17 @@
             --gray-track: oklch(57.4% 0.0165 277.7);
         }
     }
+}
+
+.radix-themes {
+    --default-font-family: "Bricolage Grotesque Variable";
+    --divider: rgb(from var(--gray-8) r g b / 0.30);
+}
+
+body {
+    background-color: #1C2024 !important;
+}
+
+.rt-Separator {
+    background-color: var(--divider);
 }
