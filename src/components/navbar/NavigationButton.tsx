@@ -1,11 +1,12 @@
 import type { NavigationItemType } from "@/config/navigation";
 import { Button, Separator } from "@radix-ui/themes";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import "./NavigationButton.css";
 
 const INACTIVE_STYLE = {
   color: "rgba(255, 255, 255, 0.55)",
   backgroundColor: "transparent",
+  cursor: "pointer",
 };
 const ACTIVE_STYLE = {
   background:
@@ -19,7 +20,8 @@ type NavigationButtonProps = {
 };
 
 const NavigationButton = ({ item }: NavigationButtonProps) => {
-  const isActive = item.href === window.location.pathname;
+  const location = useLocation();
+  const isActive = item.href === location.pathname;
   if (item.separator) {
     return (
       <Separator orientation={"vertical"} my={"1"} size={"2"} color={"gray"} />
@@ -30,7 +32,7 @@ const NavigationButton = ({ item }: NavigationButtonProps) => {
     <Link to={item.href ?? ""}>
       <Button 
         size="3" 
-        style={isActive ? ACTIVE_STYLE : INACTIVE_STYLE} 
+        style={isActive ? ACTIVE_STYLE : INACTIVE_STYLE}
         className={isActive ? "active-navigation-button" : "inactive-navigation-button"}
       >
         {item.label}
