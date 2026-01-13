@@ -148,6 +148,7 @@
 .radix-themes {
     --default-font-family: "Bricolage Grotesque Variable";
     --divider: rgb(from var(--gray-8) r g b / 0.30);
+    --radius-factor: 1;
 }
 
 body {

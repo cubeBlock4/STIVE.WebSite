@@ -12,7 +12,9 @@ import "@radix-ui/themes/styles.css";
 import "./app.css";
 import { Theme } from "@radix-ui/themes";
 
-import "@fontsource-variable/bricolage-grotesque"; // Defaults to wght axis
+import "@fontsource-variable/bricolage-grotesque";
+import { store } from "@/store/store";
+import { Provider } from "react-redux"; // Defaults to wght axis
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -37,18 +39,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="bg-[#1C2024] min-h-screen">
-        <Theme accentColor={"red"} radius={"none"}>
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-        </Theme>
+          <Theme accentColor={"red"} radius={"none"}>
+            {children}
+            <ScrollRestoration />
+            <Scripts />
+          </Theme>
       </body>
     </html>
   );
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <Provider store={store}>
+      <Outlet />
+    </Provider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
