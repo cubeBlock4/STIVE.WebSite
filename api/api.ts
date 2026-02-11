@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "@/store/store";
 
 // Base query with auth token injection
@@ -21,4 +21,5 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery,
   endpoints: (builder) => ({}),
+  tagTypes: ["Products"]
 });

@@ -12,7 +12,7 @@ export type LoginWrite = {
 
 export type LoginResponse = {
   token: string;
-  // Add other fields your API returns (e.g., user info)
+  user: Customer;
 }
 
 export type AuthState = {
@@ -20,3 +20,38 @@ export type AuthState = {
   isAuthenticated: boolean;
 }
 
+export type ApiObject = {
+  id: number;
+}
+
+export type Family = ApiObject & {
+  name: string;
+  products: Product[];
+};
+
+export type Supplier = ApiObject & {
+  entrepriseName: string;
+  email: string;
+  phone: string;
+  products: Product[];
+}
+
+export type Product = ApiObject & {
+  name: string;
+  reference: string;
+  price: string;
+  famille: Family;
+  supplier: Supplier;
+}
+
+export type Cart = ApiObject & {
+  customer: string;
+  products: Product[];
+}
+
+export type Customer = ApiObject & {
+  firstName: string;
+  lastName: string;
+  email: string;
+  panier: Cart;
+}

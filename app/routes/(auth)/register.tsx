@@ -69,7 +69,6 @@ export default function Register() {
 
   return (
     <>
-      <Navbar />
       <Flex
         direction="column"
         align="center"

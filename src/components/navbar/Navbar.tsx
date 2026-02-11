@@ -1,15 +1,19 @@
 import { useNavigation } from '@/config/navigation';
-import { Box, Flex, Separator } from '@radix-ui/themes';
+import { Avatar, Box, Flex, Separator } from '@radix-ui/themes';
 import NavigationButton from './NavigationButton';
+import { useSession } from "@/providers/AuthProvider";
 
 export function Navbar() {
   const navigation = useNavigation();
-  
+  const { isAuthenticated, user } = useSession();
+
   return (
-    <Box style={{
-      marginLeft: 10,
-      marginRight: 10,
-    }}>
+    <Box
+      style={{
+        marginLeft: 10,
+        marginRight: 10,
+      }}
+    >
       <Flex
         direction="row"
         justify="end"
@@ -38,10 +42,18 @@ export function Navbar() {
             color={"gray"}
           />
 
-          <NavigationButton item={{ label: "CONNEXION", href: "/login" }} />
-          <NavigationButton
-            item={{ label: "INSCRIPTION", href: "/register" }}
-          />
+          {isAuthenticated && user ? (
+            <>
+              <Avatar fallback={user.firstName.charAt(0)} variant={"solid"} />
+            </>
+          ) : (
+            <>
+              <NavigationButton item={{ label: "CONNEXION", href: "/login" }} />
+              <NavigationButton
+                item={{ label: "INSCRIPTION", href: "/register" }}
+              />
+            </>
+          )}
         </Flex>
       </Flex>
     </Box>
