@@ -14,7 +14,8 @@ import { Theme } from "@radix-ui/themes";
 
 import "@fontsource-variable/bricolage-grotesque";
 import { store } from "@/store/store";
-import { Provider } from "react-redux"; // Defaults to wght axis
+import { Provider } from "react-redux";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -52,7 +53,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <Provider store={store}>
-      <Outlet />
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
     </Provider>
   );
 }

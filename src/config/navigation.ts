@@ -23,7 +23,7 @@ export const useNavigation = (): NavigationItemType[] => {
     },
     {
       label: "LISTE DES VINS",
-      href: "/wines",
+      href: "/products",
     },
     {
       label: "PANIER",

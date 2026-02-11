@@ -22,7 +22,6 @@ const authSlice = createSlice({
     setCredentials: (state, action: PayloadAction<{ token: string }>) => {
       state.token = action.payload.token;
       state.isAuthenticated = true;
-      // Save to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("authToken", action.payload.token);
       }
@@ -30,7 +29,6 @@ const authSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.isAuthenticated = false;
-      // Remove from localStorage
       if (typeof window !== "undefined") {
         localStorage.removeItem("authToken");
       }
