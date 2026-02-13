@@ -2,10 +2,10 @@ import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import type { Customer } from "@/types/api/types";
 import { useAuth } from "@/hooks/useAuth";
+import { useFetchUserQuery } from "../../api/api";
 
 interface AuthContextType {
-  user: Customer | null;
-  setUser: (user: Customer | null) => void;
+  user: Customer;
   isAuthenticated: boolean;
 }
 
@@ -13,10 +13,13 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
-  const [user, setUser] = useState<Customer | null>(null);
+
+  const { data: user } = useFetchUserQuery(undefined, { skip: !isAuthenticated });
+
+  if (!user) return null;
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

@@ -10,6 +10,12 @@ export type LoginWrite = {
   password: string;
 }
 
+export type ResetPassword = {
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
 export type LoginResponse = {
   token: string;
   user: Customer;

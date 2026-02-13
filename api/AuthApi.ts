@@ -1,7 +1,7 @@
-import type { RegisterWrite, LoginWrite, LoginResponse } from "@/types/api/types";
+import type { RegisterWrite, LoginWrite, LoginResponse, ResetPassword } from "@/types/api/types";
 
 export const register = async (data: RegisterWrite) => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/Auth/register`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const register = async (data: RegisterWrite) => {
 };
 
 export const login = async (data: LoginWrite): Promise<LoginResponse> => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/Auth/login`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,3 +37,16 @@ export const login = async (data: LoginWrite): Promise<LoginResponse> => {
 
   return await response.json();
 };
+
+export const resetPassword = async (data: ResetPassword) => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
+}

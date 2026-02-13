@@ -2,6 +2,7 @@ import { useNavigation } from '@/config/navigation';
 import { Avatar, Box, Flex, Separator } from '@radix-ui/themes';
 import NavigationButton from './NavigationButton';
 import { useSession } from "@/providers/AuthProvider";
+import { Link } from 'react-router';
 
 export function Navbar() {
   const navigation = useNavigation();
@@ -32,7 +33,7 @@ export function Navbar() {
       >
         <Flex direction="row" gap="4" align="end">
           {navigation.map((item) => (
-            <NavigationButton item={item} />
+            <NavigationButton key={item.href} item={item} />
           ))}
 
           <Separator
@@ -43,9 +44,9 @@ export function Navbar() {
           />
 
           {isAuthenticated && user ? (
-            <>
+            <Link to={"/account"}>
               <Avatar fallback={user.firstName.charAt(0)} variant={"solid"} />
-            </>
+            </Link>
           ) : (
             <>
               <NavigationButton item={{ label: "CONNEXION", href: "/login" }} />
