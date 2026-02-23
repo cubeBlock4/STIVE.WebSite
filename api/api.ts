@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "@/store/store";
+import type { Customer } from "@/types/api/types";
 
 // Base query with auth token injection
 const baseQuery = fetchBaseQuery({
@@ -20,6 +21,15 @@ const baseQuery = fetchBaseQuery({
 export const api = createApi({
   reducerPath: "api",
   baseQuery,
-  endpoints: (builder) => ({}),
-  tagTypes: ["Products"]
+  endpoints: (builder) => ({
+    fetchUser: builder.query<Customer, void>({
+      query: () => ({
+        url: "auth/me"
+      }),
+      providesTags: ["Customers"],
+    })
+  }),
+  tagTypes: ["Products", "Customers"]
 });
+
+export const { useFetchUserQuery } = api;

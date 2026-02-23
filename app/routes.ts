@@ -11,6 +11,7 @@ export default [
     route("register", "routes/(auth)/register.tsx"),
     route("login", "routes/(auth)/login.tsx"),
     route("products", "routes/products.tsx"),
-    route("cart", "routes/cart.tsx")
+    route("cart", "routes/cart.tsx"),
+    route("account/:tab?", "routes/account.tsx")
   ]),
 ] satisfies RouteConfig;

@@ -38,3 +38,12 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
+
+export const resetPasswordSchema = z.object({
+  email: z.email().min(1).max(255),
+  currentPassword: z.string().min(1).max(255),
+  newPassword: z.string().min(1).max(255),
+  confirmNewPassword: z.string().min(1).max(255),
+})
+
+export type ResetPasswordFormType = z.infer<typeof resetPasswordSchema>;
