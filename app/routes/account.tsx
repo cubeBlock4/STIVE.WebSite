@@ -1,4 +1,4 @@
-import type { Route } from "../../.react-router/types/app/routes/+types/account";
+import type { Route } from "../+types/account";
 import { Flex } from "@radix-ui/themes";
 import AccountTabPanel, {
   type AccountTab,
