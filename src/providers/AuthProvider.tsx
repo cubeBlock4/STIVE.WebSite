@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useFetchUserQuery } from "../../api/api";
 
 interface AuthContextType {
-  user: Customer;
+  user: Customer | null;
   isAuthenticated: boolean;
 }
 
@@ -16,10 +16,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const { data: user } = useFetchUserQuery(undefined, { skip: !isAuthenticated });
 
-  if (!user) return null;
-
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated }}>
+    <AuthContext.Provider value={{ user: user ?? null, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

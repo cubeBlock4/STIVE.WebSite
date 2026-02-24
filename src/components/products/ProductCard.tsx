@@ -1,20 +1,69 @@
 import type { Product } from "@/types/api/types";
-import { Box, Flex, Text } from "@radix-ui/themes";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 
 type ProductCardProps = {
   product: Product;
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const { name } = product;
+  const { name, price, famille } = product;
 
   return (
-    <Box>
-      <Flex>
-        <Text>{name}</Text>
+    <Box
+      style={{
+        height: "300px",
+        width: "300px",
+        border: "1px solid var(--gray-11)",
+        borderRadius: "4px",
+      }}
+      m="2"
+      p="2"
+    >
+      <Flex direction={"column"} gap={"2"}>
+        <Avatar
+          color={"iris"}
+          size={"9"}
+          variant={"solid"}
+          fallback={name.charAt(0)}
+          style={{
+            display: "block",
+            margin: "0 auto",
+          }}
+        />
+        <Badge
+          color={"gray"}
+          variant={"solid"}
+          style={{
+            display: "block",
+            width: "fit-content",
+            margin: "0 auto",
+          }}
+        >
+          {famille.name}
+        </Badge>
       </Flex>
+      <Flex p={"4"} direction={"row"} justify={"between"}>
+        <Text style={{ color: "var(--gray-1" }}>
+          {name}
+        </Text>
+        <Text style={{ color: "var(--gray-1" }}>
+          {price} €
+        </Text>
+      </Flex>
+      <Button
+        style={{ display: "block", margin: "0 auto" }}
+      >
+        Ajouter au panier
+      </Button>
     </Box>
-  )
+  );
 };
 
 export default ProductCard;
