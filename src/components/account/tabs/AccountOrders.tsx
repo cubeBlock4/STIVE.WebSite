@@ -1,5 +1,4 @@
 import { Box, Flex } from "@radix-ui/themes";
-import { useAccount } from "@/contexts/AccountContext";
 import OrderCard from "@/components/orders/OrderCard";
 import type { Order } from "@/types/api/types";
 
@@ -22,8 +21,6 @@ const MOCK_ORDERS: Order[] = [
 ]
 
 const AccountOrders = () => {
-  const account = useAccount();
-
   return (
     <Box
       style={{

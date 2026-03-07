@@ -32,7 +32,6 @@ export function meta({}: Route.MetaArgs) {
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { setUser } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
@@ -59,11 +58,9 @@ export default function Login() {
       
       // Save token to Redux store (and localStorage)
       dispatch(setCredentials({ token: response.token }));
-      // Save user in context (in-memory)
-      setUser(response.user);
 
       // Success! Redirect to home page
-      navigate("/");
+      navigate({pathname: "/"});
     } catch (error) {
       setApiError(
         error instanceof Error
