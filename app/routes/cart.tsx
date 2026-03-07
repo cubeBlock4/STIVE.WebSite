@@ -53,7 +53,7 @@ export default function Cart() {
             <Text style={{ color: "#FDECEB" }} size={"4"}>{MOCK_BASKET.total} €</Text>
           </Flex>
         </Flex>
-        <hr style={{ width: "90%", margin: "0 auto", color: "var(--gray-11)" }} />
+        <hr style={{ width: "98%", margin: "0 auto", color: "var(--gray-11)" }} />
         {MOCK_BASKET.items.map(item => (
           <Flex direction="row" p="4" justify={"between"} align="center">
             <Flex direction="row" gap="4" align={"center"}>

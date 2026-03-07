@@ -32,6 +32,7 @@ const AccountTabButton = ({ tab, active }: AccountTabButtonProps) => {
         align={"center"}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={tab.onClick}
         style={{
           cursor: isHovered ? "pointer" : "default",
         }}

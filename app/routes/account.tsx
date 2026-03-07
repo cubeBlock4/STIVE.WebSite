@@ -1,16 +1,18 @@
-import type { Route } from "../+types/account";
 import { Flex } from "@radix-ui/themes";
 import AccountTabPanel, {
   type AccountTab,
 } from "@/components/account/AccountTabPanel";
 import { redirect } from "react-router";
 import AccountOverview from "@/components/account/tabs/AccountOverview";
-import { useAuth } from "@/hooks/useAuth";
+import { useAppDispatch, useAuth } from "@/hooks/useAuth";
 import { useSession } from "@/providers/AuthProvider";
 import { AccountContext } from "@/contexts/AccountContext";
 import AccountOrders from "@/components/account/tabs/AccountOrders";
+import type { Route } from "./+types/account";
+import { logout } from "@/store/authSlice";
+import type { ThunkDispatch } from "@reduxjs/toolkit";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Account - STIVE" },
     { name: "description", content: "Your account settings - STIVE" },
@@ -23,7 +25,7 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 }
 
-const TAB_LIST: AccountTab[] = [
+const getTabList = (dispatch: ThunkDispatch<any, any, any>): AccountTab[] => [
   {
     label: "INFORMATIONS",
     value: "overview",
@@ -44,13 +46,17 @@ const TAB_LIST: AccountTab[] = [
   {
     label: "SE DECONNECTER",
     value: "logout",
+    href: "/",
+    onClick: () => dispatch(logout()),
   },
 ];
 
 export default function Account({ params }: Route.ComponentProps) {
   const { isAuthenticated } = useAuth();
   const { user } = useSession();
+  const dispatch = useAppDispatch();
   const { tab: tabValue } = params;
+  const TAB_LIST = getTabList(dispatch);
   const tab = TAB_LIST.find((t) =>
     tabValue ? t.value === tabValue : t.value === "overview",
   );
