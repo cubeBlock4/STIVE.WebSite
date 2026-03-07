@@ -8,6 +8,7 @@ import AccountOverview from "@/components/account/tabs/AccountOverview";
 import { useAuth } from "@/hooks/useAuth";
 import { useSession } from "@/providers/AuthProvider";
 import { AccountContext } from "@/contexts/AccountContext";
+import AccountOrders from "@/components/account/tabs/AccountOrders";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -38,6 +39,7 @@ const TAB_LIST: AccountTab[] = [
     label: "COMMANDES",
     value: "orders",
     href: "/account/orders",
+    children: AccountOrders,
   },
   {
     label: "SE DECONNECTER",
