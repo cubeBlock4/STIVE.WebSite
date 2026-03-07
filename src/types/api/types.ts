@@ -61,3 +61,9 @@ export type Customer = ApiObject & {
   email: string;
   panier: Cart;
 }
+
+export type Order = {
+  id: string;
+  status: "pending";
+  total: number;
+}
