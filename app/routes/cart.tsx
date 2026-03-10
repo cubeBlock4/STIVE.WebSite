@@ -11,22 +11,16 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-const MOCK_BASKET = {
-  total: 4500,
-  items: [
-    {
-      label: "Nom de l'article",
-      description: "Lorem Ipsum",
-      price: 468,
-    }
-  ]
-}
-
 export default function Cart() {
   const { isAuthenticated } = useAuth();
   const { data: basket } = useGetBasketQuery();
 
   if (!isAuthenticated) return null;
+
+  if (!basket)
+    return (
+      <></>
+    );
 
   return (
     <Box
@@ -49,11 +43,11 @@ export default function Cart() {
           </Flex>
           <Flex direction={"row"} gap="2" align="center">
             <Text style={{ color: "#FDECEB" }} size={"4"}>Total :</Text>
-            <Text style={{ color: "#FDECEB" }} size={"4"}>{MOCK_BASKET.total} €</Text>
+            <Text style={{ color: "#FDECEB" }} size={"4"}>{basket.totalAmount} €</Text>
           </Flex>
         </Flex>
         <hr style={{ width: "98%", margin: "0 auto", color: "var(--gray-11)" }} />
-        {basket?.items.map(item => <BasketItemCard item={item} />)}
+        {basket.items.map(item => <BasketItemCard item={item} />)}
         <Flex direction={"row"} justify={"end"} gap="2" p="2">
           <Button variant="surface" color="gray">Retour</Button>
           <Button variant="solid">Commander</Button>
