@@ -15,11 +15,11 @@ const OrderCard = ({ order }: OrderCardProps) => {
         </Avatar>
         <Flex direction={"column"}>
           <Text weight={"bold"} size={"3"} style={{ color: "#FDECEB" }}>Commande #{order.id}</Text>
-          <Text size={"2"} style={{ color: "var(--gray-8)" }}>En cours de livraison...</Text>
+          <Text size={"2"} style={{ color: "var(--gray-8)" }}>{order.status}</Text>
         </Flex>
       </Flex>
       <Flex direction={"row"} align={"center"} gap="4">
-        <Text style={{ color: "#FDECEB" }}>Total : {order.total} €</Text>
+        <Text style={{ color: "#FDECEB" }}>Total : {order.totalAmount} €</Text>
         <IconButton variant="ghost">
           <Cross2Icon width={"20"} height={"20"} />
         </IconButton>

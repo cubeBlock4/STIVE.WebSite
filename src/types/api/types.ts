@@ -57,10 +57,20 @@ export type Customer = ApiObject & {
   basket: Basket;
 }
 
-export type Order = {
-  id: string;
-  status: "pending";
-  total: number;
+export type Order = ApiObject & {
+  customer: Customer;
+  totalAmount: string;
+  status: string;
+  orderDate: Date;
+  items: OrderItem[];
+}
+
+export type OrderItem = ApiObject & {
+  orderId: number;
+  productId: number;
+  product: Product;
+  quantity: number;
+  unitPrice: string;
 }
 
 export type Basket = ApiObject & {

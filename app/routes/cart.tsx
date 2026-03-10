@@ -3,6 +3,7 @@ import type { Route } from "./+types/cart";
 import { useAuth } from "@/hooks/useAuth";
 import { useGetBasketQuery } from "../../api/BasketApi";
 import BasketItemCard from "@/components/basket/BasketItemCard";
+import { useCheckoutBasketMutation } from "../../api/OrdersApi";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -15,8 +16,12 @@ export default function Cart() {
   const { isAuthenticated } = useAuth();
   const { data: basket } = useGetBasketQuery();
 
-  if (!isAuthenticated) return null;
-  if (!basket) return null;
+  const [checkout] = useCheckoutBasketMutation();
+  const handleCheckout = async () => {
+    await checkout();
+  }
+
+  if (!isAuthenticated || !basket) return null;
 
   return (
     <Box
@@ -46,7 +51,7 @@ export default function Cart() {
         {basket.items.map(item => <BasketItemCard item={item} />)}
         <Flex direction={"row"} justify={"end"} gap="2" p="2">
           <Button variant="surface" color="gray">Retour</Button>
-          <Button variant="solid">Commander</Button>
+          <Button onClick={handleCheckout} variant="solid">Commander</Button>
         </Flex>
       </Flex>
     </Box>
