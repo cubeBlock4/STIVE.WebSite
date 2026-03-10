@@ -1,9 +1,8 @@
-import { Avatar, Box, Button, Flex, IconButton, Text } from "@radix-ui/themes";
+import { Avatar, Box, Button, Flex, Text } from "@radix-ui/themes";
 import type { Route } from "./+types/cart";
-import { useAccount } from "@/contexts/AccountContext";
 import { useAuth } from "@/hooks/useAuth";
-import { useSession } from "@/providers/AuthProvider";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { useGetBasketQuery } from "../../api/BasketApi";
+import BasketItemCard from "@/components/basket/BasketItemCard";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -25,7 +24,7 @@ const MOCK_BASKET = {
 
 export default function Cart() {
   const { isAuthenticated } = useAuth();
-  const { user } = useSession();
+  const { data: basket } = useGetBasketQuery();
 
   if (!isAuthenticated) return null;
 
@@ -54,23 +53,7 @@ export default function Cart() {
           </Flex>
         </Flex>
         <hr style={{ width: "98%", margin: "0 auto", color: "var(--gray-11)" }} />
-        {MOCK_BASKET.items.map(item => (
-          <Flex direction="row" p="4" justify={"between"} align="center">
-            <Flex direction="row" gap="4" align={"center"}>
-              <Avatar fallback="A" variant="solid" size="5" />
-              <Flex direction={"column"}>
-                <Text style={{ color: "#FDECEB" }} weight={"bold"} size={"4"}>{item.label}</Text>
-                <Text style={{ color: "var(--gray-8)" }}>{item.description}</Text>
-              </Flex>
-            </Flex>
-            <Flex align={"center"} gap="4">
-              <Text style={{ color: "#FDECEB" }} size={"4"}>{item.price} €</Text>
-              <IconButton variant="ghost">
-                <Cross2Icon width={"20"} height={"20"} />
-              </IconButton>
-            </Flex>
-          </Flex>
-        ))}
+        {basket?.items.map(item => <BasketItemCard item={item} />)}
         <Flex direction={"row"} justify={"end"} gap="2" p="2">
           <Button variant="surface" color="gray">Retour</Button>
           <Button variant="solid">Commander</Button>

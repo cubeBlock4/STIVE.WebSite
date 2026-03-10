@@ -26,10 +26,10 @@ export const api = createApi({
       query: () => ({
         url: "auth/me"
       }),
-      providesTags: ["Customers"],
+      providesTags: ["Customers", "Basket"],
     })
   }),
-  tagTypes: ["Products", "Customers"]
+  tagTypes: ["Products", "Customers", "Basket"]
 });
 
 export const { useFetchUserQuery } = api;
