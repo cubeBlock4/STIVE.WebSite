@@ -7,6 +7,8 @@ import {
   Flex,
   Text,
 } from "@radix-ui/themes";
+import { useAddToBasketMutation } from "../../../api/BasketApi";
+import { toast } from "sonner";
 
 type ProductCardProps = {
   product: Product;
@@ -14,6 +16,23 @@ type ProductCardProps = {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { name, price, famille } = product;
+
+  const [addToBasket, { isSuccess }] = useAddToBasketMutation();
+  const handleAddToBasket = async () => {
+    const res = await addToBasket({
+      productId: product.id,
+      quantity: 1,
+    });
+
+    if ("error" in res)
+      toast.error("Erreur - Panier", {
+        description: JSON.stringify(res.error),
+      });
+    else
+      toast.success("Panier", {
+        description: `${name} ajouté au panier avec succès.`,
+      });
+  }
 
   return (
     <Box
@@ -58,6 +77,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </Text>
       </Flex>
       <Button
+        onClick={handleAddToBasket}
         style={{ display: "block", margin: "0 auto" }}
       >
         Ajouter au panier

@@ -22,14 +22,26 @@ export default function Products() {
 
   return (
     <Grid
-      columns={{ initial: "1", sm: "2", md: "3", lg: "4", xl: "5" }}
+      columns={{
+        initial: "1",
+        sm: "2",
+        md: "3",
+        lg: "4",
+        xl: "5",
+      }}
       rows={"repeat(2, 350px)"}
       gap={"4"}
     >
       {products &&
         products.map((product) => (
-          <Box style={{ margin: "0 auto" }}>
-            <ProductCard product={product} />
+          <Box
+            key={product.id + "-container"}
+            style={{ margin: "0 auto" }}
+          >
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
           </Box>
         ))}
     </Grid>

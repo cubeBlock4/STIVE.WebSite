@@ -1,18 +1,17 @@
 import { Avatar, Box, Button, Flex, Text, TextField } from "@radix-ui/themes";
-import { useAccount } from "@/contexts/AccountContext";
 import { useEditCustomerMutation } from "../../../../api/CustomersApi";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type { CustomerFormType } from "@/schemas/customer.schema";
-import type { ResetPassword } from "@/types/api/types";
 import { resetPassword } from "../../../../api/AuthApi";
 import type { ResetPasswordFormType } from "@/schemas/auth.schema";
-import { Form } from "radix-ui";
 import FormField from "@/components/FormField";
+import { useSession } from "@/providers/AuthProvider";
+import type { Customer } from "@/types/api/types";
 
 const AccountOverview = () => {
-  const account = useAccount();
+  const { user: account } = useSession();
 
-  const [editAccount, { isLoading }] = useEditCustomerMutation();
+  const [editAccount] = useEditCustomerMutation();
 
   const {
     register,
@@ -20,7 +19,7 @@ const AccountOverview = () => {
     formState: { isDirty },
   } = useForm<CustomerFormType>({
     defaultValues: {
-      id: account.id,
+      id: account?.id,
     },
   });
 
@@ -31,12 +30,13 @@ const AccountOverview = () => {
     formState: { errors: resetPasswordErrors, isDirty: isDirtyResetPassword },
   } = useForm<ResetPasswordFormType>({
     defaultValues: {
-      email: account.email,
+      email: account?.email,
     },
     mode: "onChange",
   });
 
   const onSubmit: SubmitHandler<CustomerFormType> = async (body) => {
+    if (!account) return;
     const res = await editAccount({
       ...account,
       ...body,

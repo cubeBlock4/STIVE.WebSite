@@ -12,10 +12,13 @@ import type { Route } from "./+types/account";
 import { logout } from "@/store/authSlice";
 import type { ThunkDispatch } from "@reduxjs/toolkit";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "Account - STIVE" },
-    { name: "description", content: "Your account settings - STIVE" },
+    {
+      name: "description",
+      content: "Your account settings - STIVE",
+    },
   ];
 }
 
@@ -25,7 +28,9 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 }
 
-const getTabList = (dispatch: ThunkDispatch<any, any, any>): AccountTab[] => [
+const getTabList = (
+  dispatch: ThunkDispatch<any, any, any>,
+): AccountTab[] => [
   {
     label: "INFORMATIONS",
     value: "overview",
@@ -51,25 +56,26 @@ const getTabList = (dispatch: ThunkDispatch<any, any, any>): AccountTab[] => [
   },
 ];
 
-export default function Account({ params }: Route.ComponentProps) {
+export default function Account({
+  params,
+}: Route.ComponentProps) {
   const { isAuthenticated } = useAuth();
-  const { user } = useSession();
   const dispatch = useAppDispatch();
   const { tab: tabValue } = params;
   const TAB_LIST = getTabList(dispatch);
   const tab = TAB_LIST.find((t) =>
-    tabValue ? t.value === tabValue : t.value === "overview",
+    tabValue
+      ? t.value === tabValue
+      : t.value === "overview",
   );
 
   if (!isAuthenticated) return null;
   if (!tab) return null;
 
   return (
-    <AccountContext.Provider value={user}>
-      <Flex direction={"row"} gap={"2"} p={"2"}>
-        <AccountTabPanel value={tab} tabs={TAB_LIST} />
-        {tab.children && <tab.children />}
-      </Flex>
-    </AccountContext.Provider>
+    <Flex direction={"row"} gap={"2"} p={"2"}>
+      <AccountTabPanel value={tab} tabs={TAB_LIST} />
+      {tab.children && <tab.children />}
+    </Flex>
   );
 }

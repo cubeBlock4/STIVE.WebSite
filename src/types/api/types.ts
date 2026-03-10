@@ -50,20 +50,33 @@ export type Product = ApiObject & {
   supplier: Supplier;
 }
 
-export type Cart = ApiObject & {
-  customer: string;
-  products: Product[];
-}
-
 export type Customer = ApiObject & {
   firstName: string;
   lastName: string;
   email: string;
-  panier: Cart;
+  basket: Basket | null;
 }
 
 export type Order = {
   id: string;
   status: "pending";
   total: number;
+}
+
+export type Basket = ApiObject & {
+  customer: string;
+  items: BasketItem[];
+}
+
+export type BasketItem = ApiObject & {
+  basketId: number;
+  basket: string;
+  productId: number;
+  product: Product;
+  quantity: number;
+}
+
+export type BasketItemWrite = {
+  productId: number;
+  quantity: number;
 }
