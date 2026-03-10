@@ -50,10 +50,19 @@ export type Product = ApiObject & {
   supplier: Supplier;
 }
 
+export type Address = {
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
 export type Customer = ApiObject & {
   firstName: string;
   lastName: string;
   email: string;
+  billingAddress: Address;
+  deliveryAddress: Address;
   basket: Basket;
 }
 
