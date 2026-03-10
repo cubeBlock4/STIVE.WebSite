@@ -5,13 +5,30 @@ import {
   IconButton,
   Text,
 } from "@radix-ui/themes";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { useUpdateBasketItemQuantityMutation } from "../../../api/BasketApi";
+import { toast } from "sonner";
 
 type BasketItemProps = {
   item: BasketItem;
 };
 
 const BasketItemCard = ({ item }: BasketItemProps) => {
+  const [updateQuantity] =
+    useUpdateBasketItemQuantityMutation();
+  const handleUpdateQuantity = async (quantity: number) => {
+    if (quantity < 0) return;
+    const res = await updateQuantity({
+      productId: item.product.id,
+      quantity,
+    });
+
+    if ("error" in res)
+      toast.error("Erreur - Panier", {
+        description: JSON.stringify(res),
+      });
+  };
+
   return (
     <Flex
       direction="row"
@@ -38,8 +55,24 @@ const BasketItemCard = ({ item }: BasketItemProps) => {
         <Text style={{ color: "#FDECEB" }} size={"4"}>
           {item.product.price} €
         </Text>
-        <IconButton variant="ghost">
-          <Cross2Icon width={"20"} height={"20"} />
+        <IconButton
+          onClick={() =>
+            handleUpdateQuantity(item.quantity + 1)
+          }
+          variant="ghost"
+        >
+          <PlusIcon width={"20"} height={"20"} />
+        </IconButton>
+        <Text style={{ color: "#FDECEB" }} size={"4"}>
+          {item.quantity}
+        </Text>
+        <IconButton
+          onClick={() =>
+            handleUpdateQuantity(item.quantity - 1)
+          }
+          variant="ghost"
+        >
+          <MinusIcon width={"20"} height={"20"} />
         </IconButton>
       </Flex>
     </Flex>

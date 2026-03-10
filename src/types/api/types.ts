@@ -54,7 +54,7 @@ export type Customer = ApiObject & {
   firstName: string;
   lastName: string;
   email: string;
-  basket: Basket | null;
+  basket: Basket;
 }
 
 export type Order = {
