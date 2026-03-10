@@ -18,6 +18,23 @@ export const BasketApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Basket"],
     }),
+    removeFromBasket: builder.mutation<Basket, number>({
+      query: (productId) => ({
+        url: `basket/items/${productId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Basket"],
+    }),
+    updateBasketItemQuantity: builder.mutation<Basket, BasketItemWrite>({
+      query: ({productId, quantity}) => ({
+        url: `basket/items/${productId}`,
+        method: "PUT",
+        body: {
+          quantity,
+        },
+      }),
+      invalidatesTags: ["Basket"],
+    })
   }),
   overrideExisting: true,
 });
@@ -25,4 +42,6 @@ export const BasketApi = api.injectEndpoints({
 export const {
   useGetBasketQuery,
   useAddToBasketMutation,
+  useRemoveFromBasketMutation,
+  useUpdateBasketItemQuantityMutation,
 } = BasketApi;

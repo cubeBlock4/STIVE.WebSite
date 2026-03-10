@@ -17,11 +17,6 @@ export default function Cart() {
 
   if (!isAuthenticated) return null;
 
-  if (!basket)
-    return (
-      <></>
-    );
-
   return (
     <Box
       style={{
