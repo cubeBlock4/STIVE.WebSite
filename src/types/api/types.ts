@@ -66,6 +66,7 @@ export type Order = {
 export type Basket = ApiObject & {
   customer: string;
   items: BasketItem[];
+  totalAmount: number;
 }
 
 export type BasketItem = ApiObject & {
