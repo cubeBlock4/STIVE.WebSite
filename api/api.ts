@@ -29,7 +29,7 @@ export const api = createApi({
       providesTags: ["Customers", "Basket"],
     })
   }),
-  tagTypes: ["Products", "Customers", "Basket"]
+  tagTypes: ["Products", "Customers", "Basket", "Families"]
 });
 
 export const { useFetchUserQuery } = api;

@@ -16,6 +16,7 @@ export default function Cart() {
   const { data: basket } = useGetBasketQuery();
 
   if (!isAuthenticated) return null;
+  if (!basket) return null;
 
   return (
     <Box
