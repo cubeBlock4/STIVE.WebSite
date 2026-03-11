@@ -11,6 +11,7 @@ import AccountOrders from "@/components/account/tabs/AccountOrders";
 import type { Route } from "./+types/account";
 import { logout } from "@/store/authSlice";
 import type { ThunkDispatch } from "@reduxjs/toolkit";
+import AccountAddresses from "@/components/account/tabs/AccountAddresses";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -41,6 +42,7 @@ const getTabList = (
     label: "ADRESSES",
     value: "addresses",
     href: "/account/addresses",
+    children: AccountAddresses,
   },
   {
     label: "COMMANDES",
