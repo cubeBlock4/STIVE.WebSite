@@ -1,5 +1,4 @@
 import type { Route } from "../../../.react-router/types/app/routes/+types/home";
-import { Navbar } from "@/components/navbar/Navbar";
 import {
   Box,
   Button,
@@ -54,7 +53,6 @@ export default function Register() {
 
       await registerUser(registerData);
 
-      // Success! Redirect to login page
       navigate("/login");
     } catch (error) {
       setApiError(
@@ -89,7 +87,6 @@ export default function Register() {
           }}
         >
           <Flex direction="column" gap="5">
-            {/* Header */}
             <Flex direction="column" gap="2" align="center">
               <Heading size="6" weight="bold" style={{ color: "white" }}>
                 Créer un compte
@@ -101,17 +98,14 @@ export default function Register() {
 
             <Separator size="4" />
 
-            {/* API Error Message */}
             {apiError && (
               <Callout.Root color="red" size="1">
                 <Callout.Text>{apiError}</Callout.Text>
               </Callout.Root>
             )}
 
-            {/* Form */}
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex direction="column" gap="4">
-                {/* Name Fields */}
                 <Flex gap="3" direction="row">
                   <Flex direction="column" gap="1" style={{ flex: 1 }}>
                     <Text size="2" weight="medium" style={{ color: "white" }}>
@@ -146,7 +140,6 @@ export default function Register() {
                   </Flex>
                 </Flex>
 
-                {/* Email Field */}
                 <Flex direction="column" gap="1">
                   <Text size="2" weight="medium" style={{ color: "white" }}>
                     Email
@@ -164,7 +157,6 @@ export default function Register() {
                   )}
                 </Flex>
 
-                {/* Password Field */}
                 <Flex direction="column" gap="1">
                   <Text size="2" weight="medium" style={{ color: "white" }}>
                     Mot de passe
@@ -182,7 +174,6 @@ export default function Register() {
                   )}
                 </Flex>
 
-                {/* Confirm Password Field */}
                 <Flex direction="column" gap="1">
                   <Text size="2" weight="medium" style={{ color: "white" }}>
                     Confirmer le mot de passe
@@ -200,7 +191,6 @@ export default function Register() {
                   )}
                 </Flex>
 
-                {/* Submit Button */}
                 <Button
                   type="submit"
                   size="3"
@@ -217,7 +207,6 @@ export default function Register() {
 
             <Separator size="4" />
 
-            {/* Footer */}
             <Flex justify="center" gap="2">
               <Text size="2" style={{ color: "var(--gray-11)" }}>
                 Vous avez déjà un compte ?
