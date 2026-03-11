@@ -17,7 +17,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login as loginUser } from "../../../api/AuthApi";
 import type { LoginWrite } from "@/types/api/types";
-import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
+import {
+  loginSchema,
+  type LoginFormData,
+} from "@/schemas/auth.schema";
 import { setCredentials } from "@/store/authSlice";
 import { useAppDispatch } from "@/hooks/useAuth";
 import { useSession } from "@/providers/AuthProvider";
@@ -26,15 +29,16 @@ import { useLoginMutation } from "../../../api/api";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Connexion - STIVE" },
-    { name: "description", content: "Connectez-vous à votre compte STIVE" },
+    {
+      name: "description",
+      content: "Connectez-vous à votre compte STIVE",
+    },
   ];
 }
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState<string | null>(null);
 
   const {
     register,
@@ -45,36 +49,22 @@ export default function Login() {
     mode: "onBlur",
   });
 
-  const [login] = useLoginMutation();
+  const [login, { isSuccess, isError, isLoading, error }] =
+    useLoginMutation();
   const onSubmit = async (data: LoginFormData) => {
-    setApiError(null);
-    setIsLoading(true);
+    const loginData: LoginWrite = {
+      email: data.email,
+      password: data.password,
+    };
 
-    try {
-      const loginData: LoginWrite = {
-        email: data.email,
-        password: data.password,
-      };
+    const response = await login(loginData);
 
-      const response = await login(loginData);
-      
-      // Save token to Redux store (and localStorage)
-      if (response.data)
-        dispatch(
-          setCredentials({ token: response.data.token }),
-        );
-
-      // Success! Redirect to home page
-      navigate({pathname: "/"});
-    } catch (error) {
-      setApiError(
-        error instanceof Error
-          ? error.message
-          : "Une erreur inattendue s'est produite"
+    if (response.data)
+      dispatch(
+        setCredentials({ token: response.data.token }),
       );
-    } finally {
-      setIsLoading(false);
-    }
+
+    if (isSuccess) navigate({ pathname: "/" });
   };
 
   return (
@@ -99,28 +89,35 @@ export default function Login() {
           }}
         >
           <Flex direction="column" gap="5">
-            {/* Header */}
             <Flex direction="column" gap="2" align="center">
-              <Heading size="6" weight="bold" style={{ color: "white" }}>
+              <Heading
+                size="6"
+                weight="bold"
+                style={{ color: "white" }}
+              >
                 Connexion
               </Heading>
             </Flex>
 
             <Separator size="4" />
 
-            {/* API Error Message */}
-            {apiError && (
+            {isError && (
               <Callout.Root color="red" size="1">
-                <Callout.Text>{apiError}</Callout.Text>
+                <Callout.Text>
+                  {"data" in error &&
+                    JSON.stringify(error.data)}
+                </Callout.Text>
               </Callout.Root>
             )}
 
-            {/* Form */}
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex direction="column" gap="4">
-                {/* Email Field */}
                 <Flex direction="column" gap="1">
-                  <Text size="2" weight="medium" style={{ color: "white" }}>
+                  <Text
+                    size="2"
+                    weight="medium"
+                    style={{ color: "white" }}
+                  >
                     E-mail
                   </Text>
                   <TextField.Root
@@ -136,16 +133,21 @@ export default function Login() {
                   )}
                 </Flex>
 
-                {/* Password Field */}
                 <Flex direction="column" gap="1">
-                  <Text size="2" weight="medium" style={{ color: "white" }}>
+                  <Text
+                    size="2"
+                    weight="medium"
+                    style={{ color: "white" }}
+                  >
                     Mot de passe
                   </Text>
                   <TextField.Root
                     type="password"
                     placeholder="Mot de passe"
                     {...register("password")}
-                    color={errors.password ? "red" : undefined}
+                    color={
+                      errors.password ? "red" : undefined
+                    }
                   />
                   {errors.password && (
                     <Text size="1" color="red">
@@ -154,7 +156,6 @@ export default function Login() {
                   )}
                 </Flex>
 
-                {/* Submit Button */}
                 <Button
                   type="submit"
                   size="3"
@@ -162,22 +163,32 @@ export default function Login() {
                   color="red"
                   style={{
                     marginTop: "8px",
-                    cursor: isLoading ? "not-allowed" : "pointer",
+                    cursor: isLoading
+                      ? "not-allowed"
+                      : "pointer",
                   }}
                 >
-                  {isLoading ? "Connexion en cours..." : "Se connecter"}
+                  {isLoading
+                    ? "Connexion en cours..."
+                    : "Se connecter"}
                 </Button>
               </Flex>
             </form>
 
             <Separator size="4" />
 
-            {/* Footer */}
             <Flex justify="center" gap="2">
-              <Text size="2" style={{ color: "var(--gray-11)" }}>
+              <Text
+                size="2"
+                style={{ color: "var(--gray-11)" }}
+              >
                 Vous n'avez pas de compte ?
               </Text>
-              <Link href="/register" size="2" weight="medium">
+              <Link
+                href="/register"
+                size="2"
+                weight="medium"
+              >
                 S'inscrire
               </Link>
             </Flex>
