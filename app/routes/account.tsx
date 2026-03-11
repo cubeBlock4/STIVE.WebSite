@@ -79,9 +79,19 @@ export default function Account({
   if (!tab) return null;
 
   return (
-    <Flex direction={"row"} gap={"2"} p={"2"}>
-      <AccountTabPanel value={tab} tabs={TAB_LIST} />
-      {tab.children && <tab.children />}
-    </Flex>
+    <div className="relative min-h-[calc(100vh-100px)] w-full py-8 px-4 sm:px-6 lg:px-8 animate-fade-in max-w-7xl mx-auto">
+      {/* Background glowing orbs */}
+      <div className="absolute top-0 right-10 w-96 h-96 bg-[#117f90] rounded-full mix-blend-screen filter blur-[128px] opacity-10 animate-float" style={{ animationDelay: "1s", zIndex: -1, pointerEvents: "none" }}></div>
+      <div className="absolute bottom-10 left-10 w-64 h-64 bg-[var(--red-9)] rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-pulse-glow" style={{ zIndex: -1, pointerEvents: "none" }}></div>
+
+      <div className="glass-card w-full rounded-3xl p-6 md:p-8 shadow-2xl relative z-10 animate-slide-up flex flex-col md:flex-row gap-8 bg-black/20">
+        <div className="w-full md:w-64 shrink-0">
+          <AccountTabPanel value={tab} tabs={TAB_LIST} />
+        </div>
+        <div className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded-2xl p-6 shadow-inner">
+          {tab.children && <tab.children />}
+        </div>
+      </div>
+    </div>
   );
 }

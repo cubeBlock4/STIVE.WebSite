@@ -1,9 +1,30 @@
 .inactive-navigation-button {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-weight: 500;
 }
 
 .inactive-navigation-button:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    transform: translateY(-2px);
     border-radius: 12px;
+    color: white !important;
+}
+
+.inactive-navigation-button:active {
+    transform: scale(0.95);
+}
+
+.active-navigation-button {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-weight: 600;
+    box-shadow: 0 4px 15px var(--red-a4);
+}
+
+.active-navigation-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--red-a6);
+}
+
+.active-navigation-button:active {
+    transform: scale(0.95);
 }

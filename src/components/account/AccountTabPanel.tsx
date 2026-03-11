@@ -16,23 +16,13 @@ type AccountTabPanelProps = {
 
 const AccountTabPanel = ({ value, tabs }: AccountTabPanelProps) => {
   return (
-    <Box
-      style={{
-        backgroundColor: "#121416",
-        height: "500px",
-        width: "400px",
-        borderImage:
-          "linear-gradient(to left, #C1C1C1 1%, #5C5C5C 47%, #5B5B5B 100%) 1",
-        borderStyle: "solid",
-        borderWidth: "1px",
-      }}
-    >
-      <Flex direction={"column"} style={{ padding: 16 }} gap={"6"}>
+    <div className="w-full h-full">
+      <Flex direction={"column"} className="py-2" gap={"4"}>
         {tabs.map((tab) => (
-          <AccountTabButton tab={tab} active={tab.value === value.value} />
+          <AccountTabButton key={tab.value} tab={tab} active={tab.value === value.value} />
         ))}
       </Flex>
-    </Box>
+    </div>
   );
 };
 

@@ -9,26 +9,16 @@ const AccountOrders = () => {
   if (!orders) return null;
 
   return (
-    <Box
-      style={{
-        backgroundColor: "#121416",
-        height: "500px",
-        width: "100%",
-        borderImage:
-          "linear-gradient(to right, #C1C1C1 1%, #5C5C5C 47%, #5B5B5B 100%) 1",
-        borderStyle: "solid",
-        borderWidth: "1px",
-      }}
-    >
-      <Flex p={"2"} direction={"column"}>
+    <div className="w-full h-full animate-fade-in">
+      <Flex p={"2"} direction={"column"} gap="4">
         {orders.map(order => (
-          <>
+          <div key={order.id} className="w-full">
             <OrderCard order={order} />
-            <hr style={{ width: "96%", margin: "0 auto", color: "var(--gray-11)" }} />
-          </>
+            <hr style={{ width: "100%", margin: "16px auto 0", borderColor: "var(--white-a3)" }} />
+          </div>
         ))}
       </Flex>
-    </Box>
+    </div>
   );
 };
 

@@ -47,22 +47,18 @@ const AccountAddresses = () => {
   };
 
   return (
-    <Box
-      style={{
-        backgroundColor: "#121416",
-        height: "500px",
-        width: "100%",
-        borderImage:
-          "linear-gradient(to right, #C1C1C1 1%, #5C5C5C 47%, #5B5B5B 100%) 1",
-        borderStyle: "solid",
-        borderWidth: "1px",
-      }}
-    >
-      <Flex p={"2"} direction={"row"} gap={"4"}>
-        <AddressCard label={"Adresse de facturation"} address={user.billingAddress} onChange={handleUpdateBillingAddress} />
-        <AddressCard label={"Adresse de livraison"} address={user.deliveryAddress} onChange={handleUpdateDeliveryAddress} />
+    <div className="w-full h-full animate-fade-in">
+      <Flex p={"2"} direction={"column"} gap={"6"}>
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex-1 min-w-0">
+            <AddressCard label={"Adresse de facturation"} address={user.billingAddress} onChange={handleUpdateBillingAddress} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <AddressCard label={"Adresse de livraison"} address={user.deliveryAddress} onChange={handleUpdateDeliveryAddress} />
+          </div>
+        </div>
       </Flex>
-    </Box>
+    </div>
   );
 }
 
