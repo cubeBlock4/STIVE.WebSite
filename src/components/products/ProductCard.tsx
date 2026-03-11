@@ -35,9 +35,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }
 
   return (
-    <Box
+    <Flex
+      direction={"column"}
       style={{
-        height: "300px",
         width: "300px",
         border: "1px solid var(--gray-11)",
         borderRadius: "4px",
@@ -82,7 +82,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       >
         Ajouter au panier
       </Button>
-    </Box>
+    </Flex>
   );
 };
 
