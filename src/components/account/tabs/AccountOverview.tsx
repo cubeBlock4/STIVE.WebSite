@@ -1,12 +1,13 @@
 import { Avatar, Box, Button, Flex, Text, TextField } from "@radix-ui/themes";
 import { useEditCustomerMutation } from "../../../../api/CustomersApi";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
 import type { CustomerFormType } from "@/schemas/customer.schema";
 import { resetPassword } from "../../../../api/AuthApi";
 import type { ResetPasswordFormType } from "@/schemas/auth.schema";
 import FormField from "@/components/FormField";
 import { useSession } from "@/providers/AuthProvider";
-import type { Customer } from "@/types/api/types";
+import { toast } from "sonner";
 
 const AccountOverview = () => {
   const { user: account } = useSession();
@@ -16,24 +17,36 @@ const AccountOverview = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isDirty },
   } = useForm<CustomerFormType>({
-    defaultValues: {
-      id: account?.id,
+    values: {
+      id: account?.id ?? 0,
+      email: account?.email ?? "",
     },
   });
 
   const {
     register: registerResetPassword,
     handleSubmit: handleResetPassword,
+    setValue: setResetPasswordValue,
     setError,
     formState: { errors: resetPasswordErrors, isDirty: isDirtyResetPassword },
   } = useForm<ResetPasswordFormType>({
     defaultValues: {
-      email: account?.email,
+      email: "",
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (account?.email) {
+      setResetPasswordValue("email", account.email);
+    }
+  }, [account?.email]);
 
   const onSubmit: SubmitHandler<CustomerFormType> = async (body) => {
     if (!account) return;
@@ -42,22 +55,40 @@ const AccountOverview = () => {
       ...body,
     });
 
-    console.log(res);
+    if (res.error)
+      toast.error("Erreur - Compte", {
+        description: JSON.stringify(res),
+      })
+    else
+      toast.success("Compte", {
+        description: "Modification du compte prises en compte avec succès."
+      })
   };
 
   const onResetPassword: SubmitHandler<ResetPasswordFormType> = async (
     body,
   ) => {
-    const res = await resetPassword(body);
-
     if (body.newPassword !== body.confirmNewPassword) {
       setError("confirmNewPassword", {
         message: "Les mots de passe ne correspondent pas.",
       });
+      return;
     }
 
-    return await res.json();
+    const res = await resetPassword(body);
+
+    if (!res.ok)
+      toast.error("Erreur - Modification du mot de passe", {
+        description: JSON.stringify(res),
+      });
+    else
+      toast.success("Modification du mot de passe", {
+        description:
+          "Mot de passe modifié avec succès",
+      });
   };
+
+  if (!account) return null;
 
   return (
     <Box
@@ -77,9 +108,9 @@ const AccountOverview = () => {
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <Flex direction={"row"} align={"center"} gap={"2"}>
-            <Avatar fallback={"S"} variant={"solid"} />
+            <Avatar fallback={account?.firstName.charAt(0) ?? "A"} variant={"solid"} />
             <Text size={"5"} weight={"bold"} style={{ color: "#FFF" }}>
-              DOE John
+              {account?.lastName.toUpperCase()} {account?.firstName}
             </Text>
           </Flex>
           <Text size={"3"} weight={"bold"} style={{ color: "#FFF" }}>
@@ -121,6 +152,7 @@ const AccountOverview = () => {
             <TextField.Root
               placeholder={"Mot de passe actuel"}
               type={"password"}
+              autoComplete={"current-password"}
               {...registerResetPassword("currentPassword")}
             />
           </FormField>
@@ -138,6 +170,7 @@ const AccountOverview = () => {
               <TextField.Root
                 placeholder={"Nouveau mot de passe"}
                 type={"password"}
+                autoComplete={"new-password"}
                 {...registerResetPassword("newPassword")}
               />
             </FormField>

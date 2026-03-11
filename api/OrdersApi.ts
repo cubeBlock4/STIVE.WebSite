@@ -8,7 +8,7 @@ export const OrdersApi = api.injectEndpoints({
         url: "Orders/checkout",
         method: "POST",
       }),
-      invalidatesTags: ["Basket"],
+      invalidatesTags: ["Basket", "Orders"],
     }),
     getOrders: builder.query<Order[], void>({
       query: () => "Orders",

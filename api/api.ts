@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "@/store/store";
-import type { Customer } from "@/types/api/types";
+import type {
+  Customer,
+  LoginResponse,
+  LoginWrite,
+} from "@/types/api/types";
 
 // Base query with auth token injection
 const baseQuery = fetchBaseQuery({
@@ -27,9 +31,17 @@ export const api = createApi({
         url: "auth/me"
       }),
       providesTags: ["Customers", "Basket"],
+    }),
+    login: builder.mutation<LoginResponse, LoginWrite>({
+      query: (body) => ({
+        url: "auth/login",
+        method: "POST",
+        body
+      }),
+      invalidatesTags: ["Customers"],
     })
   }),
   tagTypes: ["Products", "Customers", "Basket", "Orders", "Families"]
 });
 
-export const { useFetchUserQuery } = api;
+export const { useFetchUserQuery, useLoginMutation } = api;

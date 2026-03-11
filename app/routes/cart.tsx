@@ -1,14 +1,25 @@
-import { Avatar, Box, Button, Flex, Text } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 import type { Route } from "./+types/cart";
 import { useAuth } from "@/hooks/useAuth";
 import { useGetBasketQuery } from "../../api/BasketApi";
 import BasketItemCard from "@/components/basket/BasketItemCard";
+import CheckoutConfirmDialog from "@/components/basket/CheckoutConfirmDialog";
 import { useCheckoutBasketMutation } from "../../api/OrdersApi";
+import { toast } from "sonner";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "Cart - STIVE" },
-    { name: "description", content: "Content of your cart - STIVE" },
+    {
+      name: "description",
+      content: "Content of your cart - STIVE",
+    },
   ];
 }
 
@@ -18,8 +29,17 @@ export default function Cart() {
 
   const [checkout] = useCheckoutBasketMutation();
   const handleCheckout = async () => {
-    await checkout();
-  }
+    const res = await checkout();
+
+    if ("error" in res)
+      toast.error("Erreur - Commande", {
+        description: JSON.stringify(res),
+      });
+    else
+      toast.success("Commande", {
+        description: "Commande passée avec succès.",
+      });
+  };
 
   if (!isAuthenticated || !basket) return null;
 
@@ -37,23 +57,61 @@ export default function Cart() {
       }}
     >
       <Flex direction="column">
-        <Flex direction={"row"} justify={"between"} p="4" width={"100%"}>
-          <Flex direction={"row"} gap={"4"} align={"center"}>
-            <Avatar fallback="P" variant="solid" size={"4"} />
-            <Text style={{ color: "#FDECEB" }} size={"5"}>Panier</Text>
+        <Flex
+          direction={"row"}
+          justify={"between"}
+          p="4"
+          width={"100%"}
+        >
+          <Flex
+            direction={"row"}
+            gap={"4"}
+            align={"center"}
+          >
+            <Avatar
+              fallback="P"
+              variant="solid"
+              size={"4"}
+            />
+            <Text style={{ color: "#FDECEB" }} size={"5"}>
+              Panier
+            </Text>
           </Flex>
           <Flex direction={"row"} gap="2" align="center">
-            <Text style={{ color: "#FDECEB" }} size={"4"}>Total :</Text>
-            <Text style={{ color: "#FDECEB" }} size={"4"}>{basket.totalAmount} €</Text>
+            <Text style={{ color: "#FDECEB" }} size={"4"}>
+              Total :
+            </Text>
+            <Text style={{ color: "#FDECEB" }} size={"4"}>
+              {basket.totalAmount} €
+            </Text>
           </Flex>
         </Flex>
-        <hr style={{ width: "98%", margin: "0 auto", color: "var(--gray-11)" }} />
-        {basket.items.map(item => <BasketItemCard item={item} />)}
-        <Flex direction={"row"} justify={"end"} gap="2" p="2">
-          <Button variant="surface" color="gray">Retour</Button>
-          <Button onClick={handleCheckout} variant="solid">Commander</Button>
-        </Flex>
+        {basket.items.length > 0 && (
+          <>
+            <hr
+              style={{
+                width: "98%",
+                margin: "0 auto",
+                color: "var(--gray-11)",
+              }}
+            />
+            {basket.items.map((item) => (
+              <BasketItemCard item={item} />
+            ))}
+            <Flex
+              direction={"row"}
+              justify={"end"}
+              gap="2"
+              p="2"
+            >
+              <CheckoutConfirmDialog
+                totalAmount={basket.totalAmount}
+                onConfirm={handleCheckout}
+              />
+            </Flex>
+          </>
+        )}
       </Flex>
     </Box>
-  )
+  );
 }
