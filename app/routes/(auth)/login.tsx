@@ -21,6 +21,7 @@ import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
 import { setCredentials } from "@/store/authSlice";
 import { useAppDispatch } from "@/hooks/useAuth";
 import { useSession } from "@/providers/AuthProvider";
+import { useLoginMutation } from "../../../api/api";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -44,6 +45,7 @@ export default function Login() {
     mode: "onBlur",
   });
 
+  const [login] = useLoginMutation();
   const onSubmit = async (data: LoginFormData) => {
     setApiError(null);
     setIsLoading(true);
@@ -54,10 +56,13 @@ export default function Login() {
         password: data.password,
       };
 
-      const response = await loginUser(loginData);
+      const response = await login(loginData);
       
       // Save token to Redux store (and localStorage)
-      dispatch(setCredentials({ token: response.token }));
+      if (response.data)
+        dispatch(
+          setCredentials({ token: response.data.token }),
+        );
 
       // Success! Redirect to home page
       navigate({pathname: "/"});
@@ -138,7 +143,7 @@ export default function Login() {
                   </Text>
                   <TextField.Root
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="Mot de passe"
                     {...register("password")}
                     color={errors.password ? "red" : undefined}
                   />

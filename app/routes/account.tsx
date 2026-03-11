@@ -12,6 +12,7 @@ import type { Route } from "./+types/account";
 import { logout } from "@/store/authSlice";
 import type { ThunkDispatch } from "@reduxjs/toolkit";
 import AccountAddresses from "@/components/account/tabs/AccountAddresses";
+import { useEffect, useState } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -65,13 +66,16 @@ export default function Account({
   const dispatch = useAppDispatch();
   const { tab: tabValue } = params;
   const TAB_LIST = getTabList(dispatch);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  if (!mounted || !isAuthenticated) return null;
+
   const tab = TAB_LIST.find((t) =>
     tabValue
       ? t.value === tabValue
       : t.value === "overview",
   );
-
-  if (!isAuthenticated) return null;
   if (!tab) return null;
 
   return (
