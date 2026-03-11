@@ -7,6 +7,7 @@ import {
   Grid,
   Spinner,
   Text,
+  TextField,
 } from "@radix-ui/themes";
 import ProductCard from "@/components/products/ProductCard";
 import FamilySelector from "@/components/families/FamilySelector";
@@ -25,12 +26,13 @@ export function meta({}: Route.MetaArgs) {
 
 type Filters = {
   family?: Family;
+  search?: string;
 };
 
 export default function Products() {
   const [filters, setFilters] = useState<Filters>({});
   const { data: products, isLoading } = useGetProductsQuery(
-    { familleId: filters.family?.id },
+    { familleId: filters.family?.id, name: filters.search },
   );
 
   if (isLoading) return <Spinner />;
@@ -38,8 +40,9 @@ export default function Products() {
   const handleResetFilters = () => {
     setFilters({
       family: undefined,
-    })
-  }
+      search: "",
+    });
+  };
 
   return (
     <Flex direction={"column"} gap={"2"}>
@@ -61,7 +64,22 @@ export default function Products() {
             });
           }}
         />
-        <Button onClick={handleResetFilters}>Réinitialiser</Button>
+        <TextField.Root
+          placeholder={"Rechercher..."}
+          value={filters.search}
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              search: e.target.value,
+            })
+          }
+        />
+        <Button
+          variant={"soft"}
+          onClick={handleResetFilters}
+        >
+          Réinitialiser
+        </Button>
       </Flex>
       <Grid
         columns={{

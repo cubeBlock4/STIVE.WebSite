@@ -57,22 +57,22 @@ const BasketItemCard = ({ item }: BasketItemProps) => {
         </Text>
         <IconButton
           onClick={() =>
-            handleUpdateQuantity(item.quantity + 1)
+            handleUpdateQuantity(item.quantity - 1)
           }
           variant="ghost"
         >
-          <PlusIcon width={"20"} height={"20"} />
+          <MinusIcon width={"20"} height={"20"} />
         </IconButton>
         <Text style={{ color: "#FDECEB" }} size={"4"}>
           {item.quantity}
         </Text>
         <IconButton
           onClick={() =>
-            handleUpdateQuantity(item.quantity - 1)
+            handleUpdateQuantity(item.quantity + 1)
           }
           variant="ghost"
         >
-          <MinusIcon width={"20"} height={"20"} />
+          <PlusIcon width={"20"} height={"20"} />
         </IconButton>
       </Flex>
     </Flex>

@@ -4,6 +4,7 @@ import type { Product } from "@/types/api/types";
 
 type GetProductFilters = {
   familleId?: number;
+  name?: string;
 }
 
 export const ProductsApi = api.injectEndpoints({
